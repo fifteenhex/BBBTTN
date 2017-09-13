@@ -16,7 +16,7 @@ start() {
 	echo high > /sys/class/gpio/gpio115/direction
 	sleep 2
 	echo low > /sys/class/gpio/gpio115/direction
-	start-stop-daemon -S -b -p $PIDFILE -m -c ttn:ttn -a /bin/sh -- -c """packet-forwarder --config /home/ttn/.pktfwd.yml start | logger"""
+	start-stop-daemon -S -b -p $PIDFILE -m -c ttn:ttn -a /bin/sh -- -c """packet-forwarder --config /etc/ttn/pktfwd.yml start | logger"""
 
         echo "OK"
 }
