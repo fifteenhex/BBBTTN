@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+# ttnpf        Starts TTN packet forwarder
+#
+
+
+umask 077
+
+PIDFILE=/var/run/ttn.pid
+
+start() {
+        printf "Enabling GPS: "
+	if [ ! -e /sys/class/gpio/gpio20 ]; then
+		echo 20 > /sys/class/gpio/export
+	fi
+	echo high > /sys/class/gpio/gpio20/direction
+        sleep 1
+	echo "OK"
+}
+stop() {
+        printf "Disabling: "
+	echo low > /sys/class/gpio/gpio20/direction
+	echo "OK"
+}
+restart() {
+        stop
+        start
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|reload)
+        restart
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
