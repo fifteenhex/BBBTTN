@@ -35,6 +35,9 @@
 };
 
 &am33xx_pinmux {
+        /delete-property/ pinctrl-names;
+        /delete-property/ pinctrl-0;
+
 	uart1_pins: pinmux_uart1_pins {
 		pinctrl-single,pins = <
 			AM33XX_IOPAD(0x980, PIN_INPUT_PULLUP | MUX_MODE0)       /* uart1_rxd.uart1_rxd */

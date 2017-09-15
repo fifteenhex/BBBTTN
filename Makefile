@@ -27,6 +27,7 @@ checkttnparams:
 
 $(FITNAME): linux buildroot
 	mkimage -f bbbttn.its $@
+
 uboot: build/uboot
 	make -C $< am335x_boneblack_defconfig
 	make -C $< CROSS_COMPILE=$(CROSS_COMPILE)
@@ -39,13 +40,14 @@ build/uboot: $(UBOOT)
 
 linux: build/linux
 	cp am335x-boneblack.dts $</arch/arm/boot/dts/
+	touch $</arch/arm/boot/dts/am335x-boneblack.dts
+	cp linux.config $</.config
 	make -C $< $(KERNELOPS) -j4
 	make -C $< $(KERNELOPS) dtbs
 
 build/linux:
 	mkdir -p $@
 	tar xJf $(LINUX) --strip 1 -C $@
-	cp linux.config $@/.config
 
 $(BROVERLAY): buildinit checkttnparams $(SSHKEY) ttnpf
 	rm -rf $(BROVERLAY)
