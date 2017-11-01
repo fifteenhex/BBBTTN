@@ -13,7 +13,7 @@ SSHKEY=outputs/adminsshkey
 FITNAME=outputs/bbbttn-$(TTN_ID).fit
 BROVERLAY=build/broverlay
 
-.PHONY: checkttnparams $(FITNAME) uboot linux broverlay ttnpf buildroot
+.PHONY: checkttnparams $(FITNAME) uboot linux broverlay ttnpf buildroot clean
 
 all: buildinit checkttnparams $(FITNAME)
 
@@ -25,7 +25,7 @@ checkttnparams:
 	test -n "$(TTN_ID)"
 	test -n "$(TTN_KEY)"
 
-$(FITNAME): linux buildroot
+$(FITNAME): buildroot
 	mkimage -f bbbttn.its $@
 
 uboot: build/uboot
@@ -37,17 +37,6 @@ build/uboot: $(UBOOT)
 	rm -rf $@
 	mkdir -p $@
 	tar xzf $< --strip 1 -C $@
-
-linux: build/linux
-	cp am335x-boneblack.dts $</arch/arm/boot/dts/
-	touch $</arch/arm/boot/dts/am335x-boneblack.dts
-	cp linux.config $</.config
-	make -C $< $(KERNELOPS) -j4
-	make -C $< $(KERNELOPS) dtbs
-
-build/linux:
-	mkdir -p $@
-	tar xJf $(LINUX) --strip 1 -C $@
 
 $(BROVERLAY): buildinit checkttnparams $(SSHKEY) ttnpf
 	rm -rf $(BROVERLAY)
@@ -76,24 +65,12 @@ $(BROVERLAY): buildinit checkttnparams $(SSHKEY) ttnpf
 	cp S49gpsen $(BROVERLAY)/etc/init.d/
 	chmod +x $(BROVERLAY)/etc/init.d/S49gpsen
 
-ttnpf:	build/ttnpf
-#	-$(GOOPS) make -C $(TTNPFPATH) dev-deps
-#	-$(CROSSGOOPS) make -C $(TTNPFPATH) deps
-	$(CROSSGOOPS) make -C $(TTNPFPATH) build
-
-build/ttnpf:
-	-$(GOOPS) go get -v -u github.com/TheThingsNetwork/packet_forwarder
-
-
 $(SSHKEY):
 	ssh-keygen -t rsa -f $@ -P ""
 
-buildroot: build/buildroot $(BROVERLAY)
-	make -C $<
+buildroot: $(BROVERLAY)
+	cp buildroot.config buildroot/.config
+	make -C buildroot/
 
-
-build/buildroot: $(BUILDROOT)
-	rm -rf $@
-	mkdir -p $@
-	tar xzf $< --strip 1 -C $@
-	cp buildroot.config $@/.config
+clean:
+	$(MAKE) -Cbuildroot/ clean
