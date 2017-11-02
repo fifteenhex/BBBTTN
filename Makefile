@@ -45,7 +45,7 @@ $(BROVERLAY): buildinit checkttnparams $(SSHKEY) ttnpf
 	cp $(SSHKEY).pub $(BROVERLAY)/home/adm/.ssh/authorized_keys
 	mkdir -p $(BROVERLAY)/etc/sudoers.d/
 	echo "adm ALL=(ALL) NOPASSWD:ALL" >> $(BROVERLAY)/etc/sudoers.d/adm
-	chmod +x $(BROVERLAY)/etc/init.d/S49gpsen
+	chmod +x $(BROVERLAY)/etc/init.d/*
 
 $(SSHKEY):
 	ssh-keygen -t rsa -f $@ -P ""

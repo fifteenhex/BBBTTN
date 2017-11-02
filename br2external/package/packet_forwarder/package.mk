@@ -8,7 +8,7 @@ define PACKET_FORWARDER_BUILD_CMDS
 endef
 
 define PACKET_FORWARDER_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 0755 $(@D)/lora_pkt_fwd/lora_pkt_fwd $(TARGET_DIR)/usr/sbin/lora_pkt_fwd
+	$(INSTALL) -D -m 0755 $(@D)/lora_pkt_fwd/lora_pkt_fwd $(TARGET_DIR)/usr/bin/lora_pkt_fwd
 endef
 
 $(eval $(generic-package))

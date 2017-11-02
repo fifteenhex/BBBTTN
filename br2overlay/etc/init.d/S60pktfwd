@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+
+
+umask 077
+
+PIDFILE=/var/run/pktfwd.pid
+
+start() {
+	mkdir -p /etc/lora_pkt_fwd/
+	ln -s /usr/share/gateway_conf/AS1-global_conf.json /etc/lora_pkt_fwd/global_conf.json
+        printf "Starting Packet Forwarder: "
+	if [ ! -e /sys/class/gpio/gpio115 ]; then
+		echo 115 > /sys/class/gpio/export
+	fi
+	echo high > /sys/class/gpio/gpio115/direction
+	sleep 2
+	echo low > /sys/class/gpio/gpio115/direction
+	#start-stop-daemon -S -b -p $PIDFILE -m -c ttn:ttn -a /bin/sh -- -c """packet-forwarder --config /etc/ttn/pktfwd.yml start | logger"""
+
+        echo "OK"
+}
+stop() {
+        printf "Stopping Packet Forwarder: "
+        start-stop-daemon -K -p $PIDFILE
+	echo "OK"
+}
+restart() {
+        stop
+        start
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart|reload)
+        restart
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
