@@ -1,0 +1,3 @@
+config BR2_PACKAGE_GATEWAY_CONF
+	bool "gateway_conf"
+
