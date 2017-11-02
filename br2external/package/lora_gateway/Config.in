@@ -1,0 +1,3 @@
+config BR2_PACKAGE_LORA_GATEWAY
+	bool "lora_gateway"
+

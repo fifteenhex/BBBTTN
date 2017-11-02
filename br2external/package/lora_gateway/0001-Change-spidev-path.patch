@@ -1,0 +1,25 @@
+From 52be8f815f89308746f6f76d4e2a7f20a463cdc4 Mon Sep 17 00:00:00 2001
+From: Daniel Palmer <daniel@0x0f.com>
+Date: Thu, 2 Nov 2017 17:02:26 +0900
+Subject: [PATCH] Change spidev path
+
+---
+ libloragw/src/loragw_spi.native.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libloragw/src/loragw_spi.native.c b/libloragw/src/loragw_spi.native.c
+index c01ed1c..502000d 100644
+--- a/libloragw/src/loragw_spi.native.c
++++ b/libloragw/src/loragw_spi.native.c
+@@ -54,7 +54,7 @@ Maintainer: Sylvain Miermont
+ #define READ_ACCESS     0x00
+ #define WRITE_ACCESS    0x80
+ #define SPI_SPEED       8000000
+-#define SPI_DEV_PATH    "/dev/spidev0.0"
++#define SPI_DEV_PATH    "/dev/spidev1.0"
+ //#define SPI_DEV_PATH    "/dev/spidev32766.0"
+ 
+ /* -------------------------------------------------------------------------- */
+-- 
+2.15.0.rc2
+

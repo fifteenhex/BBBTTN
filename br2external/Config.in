@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_BBBTTN_PATH/package/lora_gateway/Config.in"
+source "$BR2_EXTERNAL_BBBTTN_PATH/package/packet_forwarder/Config.in"
