@@ -59,5 +59,10 @@ config_buildroot:
 	make -C buildroot/ BR2_EXTERNAL=../br2external menuconfig
 	cp buildroot/.config buildroot.config
 
+config_linux:
+	cp linux.config buildroot/output/build/linux-4.13.10/.config
+	make ARCH=arm -C buildroot/output/build/linux-4.13.10/ menuconfig
+	cp buildroot/output/build/linux-4.13.10/.config linux.config
+
 clean:
 	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external clean

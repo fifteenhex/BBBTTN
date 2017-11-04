@@ -1,0 +1,25 @@
+From c75b61f91d57d816a0cc2cbed2b51ef8db0ff27a Mon Sep 17 00:00:00 2001
+From: Daniel Palmer <daniel@0x0f.com>
+Date: Sat, 4 Nov 2017 03:14:00 +0900
+Subject: [PATCH] Disable LTB for AS1
+
+---
+ AS1-global_conf.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/AS1-global_conf.json b/AS1-global_conf.json
+index 3b67b25..9fc0c71 100644
+--- a/AS1-global_conf.json
++++ b/AS1-global_conf.json
+@@ -6,7 +6,7 @@
+ 		"antenna_gain": 0,
+ 		"antenna_gain_desc": "antenna gain, in dBi",
+ 		"lbt_cfg": {
+-			"enable": true,
++			"enable": false,
+ 			"rssi_target": -80,
+ 			"chan_cfg":[
+ 				{ "freq_hz": 923200000, "scan_time_us": 128 },
+-- 
+2.15.0.rc2
+

@@ -2,6 +2,7 @@ PACKET_FORWARDER_VERSION = master
 PACKET_FORWARDER_SITE = https://github.com/Lora-net/packet_forwarder.git
 PACKET_FORWARDER_SITE_METHOD = git
 PACKET_FORWARDER_PATCH = 0001-Config-files-in-etc.patch
+PACKET_FORWARDER_DEPENDENCIES = lora_gateway
 
 define PACKET_FORWARDER_BUILD_CMDS
 	$(MAKE) LGW_PATH=../../lora_gateway-master/libloragw/ CROSS_COMPILE=$(TARGET_CROSS) -C $(@D)
