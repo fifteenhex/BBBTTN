@@ -2,6 +2,7 @@ PKTFWDBR_VERSION = master
 PKTFWDBR_SITE = https://github.com/fifteenhex/pktfwdbr.git
 PKTFWDBR_SITE_METHOD = git
 PKTFWDBR_DEPENDENCIES = host-pkgconf #glib-networking
+PKTFWDBR_GIT_SUBMODULES = YES
 
 define PKTFWDBR_BUILD_CMDS
 	PKGCONFIG=$(PKG_CONFIG_HOST_BINARY) CC=$(TARGET_CROSS)gcc $(MAKE) -C $(@D)
