@@ -12,4 +12,8 @@ define PKTFWDBR_INSTALL_TARGET_CMDS
         $(INSTALL) -D -m 0755 $(@D)/pktfwdbr $(TARGET_DIR)/usr/bin/pktfwdbr
 endef
 
+define PKTFWDBR_INSTALL_INIT_SYSV
+	$(INSTALL) -D -m 0755 $(PKTFWDBR_PKGDIR)/S59pktfwdbr $(TARGET_DIR)/etc/init.d/S59pktfwdbr
+endef
+
 $(eval $(generic-package))
