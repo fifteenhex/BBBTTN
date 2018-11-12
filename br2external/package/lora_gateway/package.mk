@@ -1,7 +1,6 @@
 LORA_GATEWAY_VERSION = master
 LORA_GATEWAY_SITE = https://github.com/Lora-net/lora_gateway.git
 LORA_GATEWAY_SITE_METHOD = git
-LORA_GATEWAY_PATCH = 0001-Change-spidev-path.patch 0002-Fix-config-paths.patch
 LORA_GATEWAY_INSTALL_STAGING = YES
 
 define LORA_GATEWAY_BUILD_CMDS
