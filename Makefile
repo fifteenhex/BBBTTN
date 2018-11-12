@@ -1,7 +1,5 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CROSS_COMPILE=arm-linux-gnueabihf-
-GOOPS=GOPATH=$(ROOT_DIR)/build/ttnpf
-CROSSGOOPS=$(GOOPS) GOOS=linux GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc
 KERNELOPS=ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 UBOOT=u-boot-2017.09-rc4.tar.gz
@@ -11,17 +9,13 @@ BROVERLAY=build/broverlay
 
 FITNAME=outputs/bbbttn.fit
 
-.PHONY: checkttnparams $(FITNAME) uboot linux broverlay ttnpf buildroot config_buildroot clean
+.PHONY: $(FITNAME) uboot linux broverlay buildroot config_buildroot clean
 
-all: buildinit checkttnparams $(FITNAME)
+all: buildinit $(FITNAME)
 
 buildinit:
 	mkdir -p build
 	mkdir -p outputs
-
-checkttnparams:
-#	test -n "$(TTN_ID)"
-#	test -n "$(TTN_KEY)"
 
 $(FITNAME): buildroot
 	mkimage -f bbbttn.its $@
@@ -36,7 +30,7 @@ build/uboot: $(UBOOT)
 	mkdir -p $@
 	tar xzf $< --strip 1 -C $@
 
-$(BROVERLAY): buildinit checkttnparams $(SSHKEY) ttnpf
+$(BROVERLAY): buildinit $(SSHKEY)
 	rm -rf $(BROVERLAY)
 	cp -a br2overlay $(BROVERLAY)
 	#setup ssh and sudo stuff for adm
