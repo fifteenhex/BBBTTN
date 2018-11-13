@@ -6,7 +6,7 @@
 
 	images {
 		kernel@1 {
-			data = /incbin/("./buildroot/output/images/zImage");
+			data = /incbin/("../../images/zImage");
 			type = "kernel";
 			arch = "arm";
 			os = "linux";
@@ -21,7 +21,7 @@
 			};
 		};
 		fdt@1 {
-			data = /incbin/("./buildroot/output/images/am335x-boneblack.dtb");
+			data = /incbin/("../../images/am335x-boneblack.dtb");
 			type = "flat_dt";
 			arch = "arm";
 			load = <0x83000000>;
@@ -34,7 +34,7 @@
 			};
 		};
 		ramdisk@1 {
-			data = /incbin/("./buildroot/output/images/rootfs.cpio.xz");
+			data = /incbin/("../../images/rootfs.cpio.xz");
 			type = "ramdisk";
 			arch = "arm";
 			os = "linux";

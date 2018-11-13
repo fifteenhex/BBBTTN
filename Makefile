@@ -9,16 +9,13 @@ BROVERLAY=build/broverlay
 
 FITNAME=outputs/bbbttn.fit
 
-.PHONY: $(FITNAME) uboot linux broverlay buildroot config_buildroot clean
+.PHONY: uboot broverlay buildroot config_buildroot clean
 
-all: buildinit $(FITNAME)
+all: buildinit buildroot
 
 buildinit:
 	mkdir -p build
 	mkdir -p outputs
-
-$(FITNAME): buildroot
-	mkimage -f bbbttn.its $@
 
 uboot: build/uboot
 	make -C $< am335x_boneblack_defconfig
