@@ -7,9 +7,10 @@ UBOOT=u-boot-2017.09-rc4.tar.gz
 SSHKEY=outputs/adminsshkey
 BROVERLAY=build/broverlay
 
+<<<<<<< HEAD
 FITNAME=outputs/bbbttn.fit
 
-.PHONY: uboot broverlay buildroot config_buildroot clean
+.PHONY: uboot broverlay buildroot buildroot_config buildroot_source clean
 
 all: buildinit buildroot
 
@@ -44,7 +45,7 @@ buildroot: $(BROVERLAY)
 	cp buildroot.config buildroot/.config
 	make -C buildroot/ BR2_EXTERNAL=../br2external
 
-config_buildroot:
+buildroot_config:
 	cp buildroot.config buildroot/.config
 	make -C buildroot/ BR2_EXTERNAL=../br2external menuconfig
 	cp buildroot/.config buildroot.config
