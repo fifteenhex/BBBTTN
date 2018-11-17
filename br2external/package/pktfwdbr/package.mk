@@ -1,4 +1,4 @@
-PKTFWDBR_VERSION = master
+PKTFWDBR_VERSION = dev
 PKTFWDBR_SITE = https://github.com/fifteenhex/pktfwdbr.git
 PKTFWDBR_SITE_METHOD = git
 PKTFWDBR_DEPENDENCIES = host-pkgconf #glib-networking

@@ -1,4 +1,4 @@
-GATEWAY_CONF_VERSION = master
+GATEWAY_CONF_VERSION = 551afce4b1bf9bf4507fd0f0b6602c7397d4e3d3
 GATEWAY_CONF_SITE = https://github.com/TheThingsNetwork/gateway-conf.git
 GATEWAY_CONF_SITE_METHOD = git
 
