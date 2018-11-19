@@ -7,7 +7,7 @@ UBOOT=u-boot-2017.09-rc4.tar.gz
 SSHKEY=outputs/adminsshkey
 BROVERLAY=build/broverlay
 
-.PHONY: uboot broverlay buildroot buildroot_config buildroot_source clean
+.PHONY: uboot broverlay buildroot buildroot_config buildroot_source clean upload
 
 all: buildinit buildroot
 
@@ -16,8 +16,8 @@ buildinit:
 	mkdir -p outputs
 
 uboot: build/uboot
-	make -C $< am335x_boneblack_defconfig
-	make -C $< CROSS_COMPILE=$(CROSS_COMPILE)
+	$(MAKE) -C $< am335x_boneblack_defconfig
+	$(MAKE) -C $< CROSS_COMPILE=$(CROSS_COMPILE)
 	cp $</MLO $</u-boot.img outputs/
 
 build/uboot: $(UBOOT)
@@ -40,11 +40,11 @@ $(SSHKEY):
 
 buildroot: $(BROVERLAY)
 	cp buildroot.config buildroot/.config
-	make -C buildroot/ BR2_EXTERNAL=../br2external
+	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external
 
 buildroot_config:
 	cp buildroot.config buildroot/.config
-	make -C buildroot/ BR2_EXTERNAL=../br2external menuconfig
+	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external menuconfig
 	cp buildroot/.config buildroot.config
 
 buildroot_source:
@@ -53,8 +53,11 @@ buildroot_source:
 
 config_linux:
 	cp linux.config buildroot/output/build/linux-4.14.13/.config
-	make ARCH=arm -C buildroot/output/build/linux-4.14.13/ menuconfig
+	$(MAKE) ARCH=arm -C buildroot/output/build/linux-4.14.13/ menuconfig
 	cp buildroot/output/build/linux-4.14.13/.config linux.config
 
 clean:
 	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external clean
+
+upload: buildroot
+	scp buildroot/output/images/bbblwgw.fit espressobin2:/srv/tftp/bbbttn.fit
