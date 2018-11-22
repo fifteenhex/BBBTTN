@@ -21,6 +21,14 @@
 		compatible = "pps-gpio";
 		gpios = <&gpio0 7 0>;
 	};
+
+	w1-gpio {
+		status          = "okay";
+		compatible      = "w1-gpio";
+		pinctrl-names   = "default";
+		pinctrl-0       = <&w1_pins>;
+		gpios           = <&gpio1 28 0>;
+	};
 };
 
 &cpu0_opp_table {
@@ -57,12 +65,18 @@
 
 	gps_pins: pinmux_gps_pins {
 		pinctrl-single,pins = <
-			AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7)       /* gpio20, en */
-			AM33XX_IOPAD(0x964, PIN_INPUT_PULLDOWN | MUX_MODE7)    /* gpio7, pps */
-			AM33XX_IOPAD(0x9a8, PIN_INPUT | MUX_MODE7)       /* gpio117, disable */
-			AM33XX_IOPAD(0x9a0, PIN_INPUT | MUX_MODE7)    /* gpio114, disable */
+			AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7)	/* gpio20, en */
+			AM33XX_IOPAD(0x964, PIN_INPUT_PULLDOWN | MUX_MODE7)	/* gpio7, pps */
+			AM33XX_IOPAD(0x9a8, PIN_INPUT | MUX_MODE7)		/* gpio117, disable */
+			AM33XX_IOPAD(0x9a0, PIN_INPUT | MUX_MODE7)		/* gpio114, disable */
 		>;
 	};
+
+	w1_pins: pinmux_w1_pins {
+		pinctrl-single,pins = <
+			AM33XX_IOPAD(0x878, PIN_INPUT | MUX_MODE7)
+                >;
+        };
 };
 
 &uart1 {
