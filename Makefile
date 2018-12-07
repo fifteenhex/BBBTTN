@@ -1,10 +1,9 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CROSS_COMPILE=arm-linux-gnueabihf-
-KERNELOPS=ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 UBOOT=u-boot-2017.09-rc4.tar.gz
 
-SSHKEY=outputs/adminsshkey
+BR2ARGS=BR2_EXTERNAL="../br2external ../br2autosshkey"
 BROVERLAY=build/broverlay
 
 .PHONY: uboot broverlay buildroot buildroot_config buildroot_source linux_config clean upload
@@ -13,7 +12,6 @@ all: buildinit buildroot
 
 buildinit:
 	mkdir -p build
-	mkdir -p outputs
 
 uboot: build/uboot
 	$(MAKE) -C $< am335x_boneblack_defconfig
@@ -28,35 +26,30 @@ build/uboot: $(UBOOT)
 $(BROVERLAY): buildinit $(SSHKEY)
 	rm -rf $(BROVERLAY)
 	cp -a br2overlay $(BROVERLAY)
-	#setup ssh and sudo stuff for adm
-	mkdir -p $(BROVERLAY)/home/adm/.ssh/
-	cp $(SSHKEY).pub $(BROVERLAY)/home/adm/.ssh/authorized_keys
 	mkdir -p $(BROVERLAY)/etc/sudoers.d/
 	echo "adm ALL=(ALL) NOPASSWD:ALL" >> $(BROVERLAY)/etc/sudoers.d/adm
 	chmod +x $(BROVERLAY)/etc/init.d/*
 
-$(SSHKEY):
-	ssh-keygen -t rsa -f $@ -P ""
-
 buildroot: $(BROVERLAY)
 	cp buildroot.config buildroot/.config
-	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external
+	$(MAKE) -C buildroot/ $(BR2ARGS)
 
 buildroot_config:
 	cp buildroot.config buildroot/.config
-	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external menuconfig
+	$(MAKE) -C buildroot/ $(BR2ARGS) menuconfig
 	cp buildroot/.config buildroot.config
 
 buildroot_source:
 	cp buildroot.config buildroot/.config
-	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external V=0 source
+	$(MAKE) -C buildroot/ $(BR2ARGS) V=0 source
 
 linux_config:
-	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external linux-menuconfig
-	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external linux-update-defconfig
+	$(MAKE) -C buildroot/ $(BR2ARGS) linux-menuconfig
+	$(MAKE) -C buildroot/ $(BR2ARGS) linux-update-defconfig
 
 clean:
-	$(MAKE) -C buildroot/ BR2_EXTERNAL=../br2external clean
+	$(MAKE) -C buildroot/ $(BR2ARGS) clean
 
 upload: buildroot
 	scp buildroot/output/images/bbblwgw.fit espressobin2:/srv/tftp/bbbttn.fit
+	mosquitto_pub -h espressobin1 -t gwctrl/bbbgw01/ctrl/reboot -m ""
