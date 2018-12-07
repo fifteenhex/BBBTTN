@@ -23,11 +23,9 @@ build/uboot: $(UBOOT)
 	mkdir -p $@
 	tar xzf $< --strip 1 -C $@
 
-$(BROVERLAY): buildinit $(SSHKEY)
+$(BROVERLAY): buildinit
 	rm -rf $(BROVERLAY)
 	cp -a br2overlay $(BROVERLAY)
-	mkdir -p $(BROVERLAY)/etc/sudoers.d/
-	echo "adm ALL=(ALL) NOPASSWD:ALL" >> $(BROVERLAY)/etc/sudoers.d/adm
 	chmod +x $(BROVERLAY)/etc/init.d/*
 
 buildroot: $(BROVERLAY)
