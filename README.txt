@@ -1,5 +1,5 @@
 Crappy makefile thing to generate a tftp bootable fit image for a BeagleBoneBlack based
-TheThingsNetwork gateway.
+LoRaWAN gateway.
 
 Why you would want this? Say your gateway is outside in a sealed enclosure powered via
 PoE or whatever...
@@ -19,11 +19,6 @@ hardware connections:
 The pinmux etc will be configured for the concentrator being connected
 to SPI1 on P9 (D0 is MISO, D1 is MOSI) and a GPS connected to UART1 on
 P9.
-
-building:
-$TTN_ID=<gatewayid> TTN_KEY=<key> make;
-<nap for 30 minutes or so>
-The outputs directory will contain a file called bbbttn-<gatewayid>.fit
 
 u-boot:
 
