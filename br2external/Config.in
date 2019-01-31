@@ -1,3 +1,9 @@
+config BR2_BBLWGW_GATEWAY_NAME
+        string "name of this gateway"
+
+config BR2_BBLWGW_MQTT_HOST
+        string "hostname of mqtt broker"
+
 source "$BR2_EXTERNAL_BBBLWGW_PATH/package/lora_gateway/Config.in"
 source "$BR2_EXTERNAL_BBBLWGW_PATH/package/packet_forwarder/Config.in"
 source "$BR2_EXTERNAL_BBBLWGW_PATH/package/gateway_conf/Config.in"

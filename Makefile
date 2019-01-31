@@ -6,6 +6,9 @@ UBOOT=u-boot-2017.09-rc4.tar.gz
 BR2ARGS=BR2_EXTERNAL="../br2external ../br2autosshkey"
 BROVERLAY=build/broverlay
 
+TFTPHOST=tftp.work
+MQTTHOST=mqtt.work
+
 .PHONY: uboot broverlay buildroot buildroot_config buildroot_source linux_config clean upload
 
 all: buildinit buildroot
@@ -49,5 +52,5 @@ clean:
 	$(MAKE) -C buildroot/ $(BR2ARGS) clean
 
 upload: buildroot
-	scp buildroot/output/images/bbblwgw.fit espressobin2:/srv/tftp/bbbttn.fit
-	mosquitto_pub -h espressobin1 -t gwctrl/bbbgw01/ctrl/reboot -m ""
+	scp buildroot/output/images/bbblwgw.fit $(TFTPHOST):/srv/tftp/bbbttn.fit
+	mosquitto_pub -h $(MQTTHOST) -t gwctrl/bbbgw01/ctrl/reboot -m ""

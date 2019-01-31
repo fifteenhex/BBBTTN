@@ -8,7 +8,7 @@ PIDFILE=/var/run/gwctrl.pid
 
 start() {
         printf "Starting Gateway Control: "
-	start-stop-daemon -S -b -p $PIDFILE -m -a /bin/sh -- -c """gwctrl -h espressobin1 -i bbbgw01 | logger"""
+	start-stop-daemon -S -b -p $PIDFILE -m -a /bin/sh -- -c """gwctrl -h TMPL_MQTT_HOST -i TMPL_GATEWAY_NAME | logger"""
         echo "OK"
 }
 stop() {
