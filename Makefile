@@ -9,7 +9,7 @@ BROVERLAY=build/broverlay
 TFTPHOST=tftp.work
 MQTTHOST=mqtt.work
 
-.PHONY: uboot broverlay buildroot buildroot_config buildroot_source linux_config clean upload
+.PHONY: uboot broverlay buildroot buildroot_config buildroot_source linux_config clean upload clean_custompackages
 
 all: buildinit buildroot
 
@@ -48,8 +48,12 @@ linux_config:
 	$(MAKE) -C buildroot/ $(BR2ARGS) linux-menuconfig
 	$(MAKE) -C buildroot/ $(BR2ARGS) linux-update-defconfig
 
-clean:
+clean: clean_custompackages
 	$(MAKE) -C buildroot/ $(BR2ARGS) clean
+
+clean_custompackages:
+	rm -rf buildroot/output/build/gwctrl-dev/ buildroot/dl/gwctrl/
+	rm -rf buildroot/output/build/pktfwdbr-dev/ buildroot/dl/pktfwdbr/
 
 upload: buildroot
 	scp buildroot/output/images/bbblwgw.fit $(TFTPHOST):/srv/tftp/bbbttn.fit
