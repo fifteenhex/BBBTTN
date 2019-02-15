@@ -60,4 +60,5 @@ upload: buildroot
 	mosquitto_pub -h $(MQTTHOST) -t gwctrl/bbbgw01/ctrl/reboot -m ""
 
 shell:
+	ssh-keygen -f "/home/daniel/.ssh/known_hosts" -R "bbbgw01.family"
 	ssh -i buildroot/output/sshkeys/adm adm@bbbgw01.family

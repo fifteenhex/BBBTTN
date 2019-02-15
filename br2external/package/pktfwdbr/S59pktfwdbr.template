@@ -8,7 +8,8 @@ PIDFILE=/var/run/pktfwdbr.pid
 
 start() {
         printf "Starting Packet Forwarder Bridge: "
-	start-stop-daemon -S -b -p $PIDFILE -m -a /bin/sh -- -c """pktfwdbr -h TMPL_MQTT_HOST | logger"""
+	start-stop-daemon -c "pktfwdbr:pktfwdbr" \
+		-S -b -p $PIDFILE -m -a /bin/sh -- -c """pktfwdbr -h TMPL_MQTT_HOST | logger"""
         echo "OK"
 }
 stop() {
