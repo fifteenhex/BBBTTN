@@ -9,7 +9,7 @@ BROVERLAY=build/broverlay
 TFTPHOST=tftp.work
 MQTTHOST=mqtt.work
 
-.PHONY: uboot broverlay buildroot buildroot_config buildroot_source linux_config clean upload clean_custompackages
+.PHONY: uboot broverlay buildroot buildroot_config buildroot_source linux_config clean upload clean_custompackages shell
 
 all: buildinit buildroot
 
@@ -58,3 +58,6 @@ clean_custompackages:
 upload: buildroot
 	scp buildroot/output/images/bbblwgw.fit $(TFTPHOST):/srv/tftp/bbbttn.fit
 	mosquitto_pub -h $(MQTTHOST) -t gwctrl/bbbgw01/ctrl/reboot -m ""
+
+shell:
+	ssh -i buildroot/output/sshkeys/adm adm@bbbgw01.family
